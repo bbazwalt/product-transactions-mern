@@ -4,7 +4,12 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const transactionsRouter = require("./controllers/transactions");
-const {  PORT, DB_API_URL,   CORS_ORIGIN, BASE_PATH_PREFIX } = require("./config/apiConfig");
+const {
+  PORT,
+  DB_API_URL,
+  CORS_ORIGIN,
+  BASE_PATH_PREFIX,
+} = require("./config/apiConfig");
 
 const app = express();
 
