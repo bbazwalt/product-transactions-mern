@@ -1,7 +1,7 @@
-const Transaction = require("../models/Transaction");
-const { getMonthNumber } = require("../config/serviceConfig");
+import { getMonthNumber } from "../config/serviceConfig.js";
+import Transaction from "../models/Transaction.js";
 
-const getPieChartData = async ({ month }) => {
+export const getPieChartData = async ({ month }) => {
   const query = [];
 
   if (month) {
@@ -33,5 +33,3 @@ const getPieChartData = async ({ month }) => {
 
   return pieChartData || [];
 };
-
-module.exports = getPieChartData;

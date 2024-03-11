@@ -1,4 +1,4 @@
-import axios from "./../../api/apiConfig";
+import axios from "../../config/apiConfig";
 import {
   GET_ALL_TRANSACTIONS_DATA_FAILURE,
   GET_ALL_TRANSACTIONS_DATA_REQUEST,
@@ -15,7 +15,29 @@ import {
   GET_STATISTICS_DATA_FAILURE,
   GET_STATISTICS_DATA_REQUEST,
   GET_STATISTICS_DATA_SUCCESS,
+  INITIATE_DATABASE_FAILURE,
+  INITIATE_DATABASE_REQUEST,
+  INITIATE_DATABASE_SUCCESS,
 } from "./actionType";
+
+export const initiateDatabase  = ()=>{
+  return async (dispatch) => {
+    dispatch({ type: INITIATE_DATABASE_REQUEST });
+    try {
+      const { data } = await axios.get("/initiate-database");
+      dispatch({ type: INITIATE_DATABASE_SUCCESS, payload: data?.message });
+    } catch (error) {
+      dispatch({
+        type: INITIATE_DATABASE_FAILURE,
+        payload: error?.response?.data?.message,
+      });
+      console.error(
+        "Error fetching transactions:",
+        error?.response?.data?.message
+      );
+    }
+  };
+}
 
 export const getAllTransactionsData =
   ({ month, searchQuery, currentPage, itemsPerPage }) =>

@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-
+import mongoose from "mongoose";
 const transactionSchema = new mongoose.Schema({
   id: Number,
   title: String,
@@ -13,4 +12,4 @@ const transactionSchema = new mongoose.Schema({
 
 const Transaction = mongoose.model("Transaction", transactionSchema);
 
-module.exports = Transaction;
+export default Transaction;

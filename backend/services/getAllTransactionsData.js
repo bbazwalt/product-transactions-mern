@@ -1,7 +1,7 @@
-const Transaction = require("../models/Transaction");
-const { getMonthNumber } = require("../config/serviceConfig");
+import { getMonthNumber } from "../config/serviceConfig.js";
+import Transaction from "../models/Transaction.js";
 
-const getAllTransactionsData = async ({
+export const getAllTransactionsData = async ({
   month,
   search = "",
   page = 1,
@@ -60,5 +60,3 @@ const getAllTransactionsData = async ({
     totalPages,
   };
 };
-
-module.exports = getAllTransactionsData;

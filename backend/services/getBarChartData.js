@@ -1,7 +1,7 @@
-const { getMonthNumber, priceRanges } = require("../config/serviceConfig");
-const Transaction = require("../models/Transaction");
+import { getMonthNumber, priceRanges } from "../config/serviceConfig.js";
+import Transaction from "../models/Transaction.js";
 
-const getBarChartData = async ({ month }) => {
+export const getBarChartData = async ({ month }) => {
   const query = [];
   if (month) {
     query.push({
@@ -16,7 +16,6 @@ const getBarChartData = async ({ month }) => {
       },
     });
   }
-
   query.push({
     $bucket: {
       groupBy: "$price",
@@ -77,5 +76,3 @@ const getBarChartData = async ({ month }) => {
 
   return finalBarChartData || [];
 };
-
-module.exports = getBarChartData;

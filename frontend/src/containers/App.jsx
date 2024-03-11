@@ -1,16 +1,14 @@
+import CloseIcon from "@mui/icons-material/Close";
 import { IconButton, Snackbar, SnackbarContent } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import BarChart from "../components/BarChart";
 import Combined from "../components/Combined";
 import Dashboard from "../components/Dashboard";
 import NavBar from "../components/NavBar";
-import CloseIcon from "@mui/icons-material/Close";
-
 import PieChart from "../components/PieChart";
 import Statistics from "../components/Statistics";
-
-import { useDispatch, useSelector } from "react-redux";
 import { CLEAR_GLOBAL_ERROR } from "../redux/transaction/actionType";
 
 const App = () => {

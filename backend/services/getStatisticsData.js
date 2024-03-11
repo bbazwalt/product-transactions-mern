@@ -1,7 +1,7 @@
-const Transaction = require("../models/Transaction");
-const { getMonthNumber } = require("../config/serviceConfig");
+import { getMonthNumber } from "../config/serviceConfig.js";
+import Transaction from "../models/Transaction.js";
 
-const getStatisticsData = async ({ month }) => {
+export const getStatisticsData = async ({ month }) => {
   const query = [];
 
   if (month) {
@@ -50,5 +50,3 @@ const getStatisticsData = async ({ month }) => {
 
   return response || {};
 };
-
-module.exports = getStatisticsData;

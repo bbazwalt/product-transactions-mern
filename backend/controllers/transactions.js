@@ -1,22 +1,20 @@
-const express = require("express");
-const router = express.Router();
-const Transaction = require("../models/Transaction");
-const axios = require("axios");
-const { PRODUCT_TRANSACTION_API_URL } = require("../config/apiConfig");
-const getAllTransactionsData = require("../services/getAllTransactionsData");
-const getBarChartData = require("../services/getBarChartData");
-const getPieChartData = require("../services/getPieChartData");
-const getStatisticsData = require("../services/getStatisticsData");
-const { isValidMonth } = require("../config/serviceConfig");
+import axios from "axios";
+import express from "express";
+import { isValidMonth } from "../config/serviceConfig.js";
+import { getAllTransactionsData } from "../services/getAllTransactionsData.js";
+import { getBarChartData } from "../services/getBarChartData.js";
+import { getPieChartData } from "../services/getPieChartData.js";
+import { getStatisticsData } from "../services/getStatisticsData.js";
 
-router.get("/init", async (req, res) => {
+export const transactionsRouter = express.Router();
+
+transactionsRouter.get("/initiate-database", async (req, res) => {
   const response = await axios.get(
     process.env.PRODUCT_TRANSACTION_API_URL || PRODUCT_TRANSACTION_API_URL
   );
   try {
     await Transaction.insertMany(response.data);
-
-    res.send("Database initialized.");
+    res.json({ message: "Database initialized." });
   } catch (error) {
     res.status(500).json({
       message:
@@ -26,7 +24,7 @@ router.get("/init", async (req, res) => {
   }
 });
 
-router.get("/transactions", async (req, res) => {
+transactionsRouter.get("/transactions", async (req, res) => {
   const { month, search, page, perPage } = req.query;
   if (!month) {
     return res.status(400).json({ message: "Month is required." });
@@ -56,17 +54,14 @@ router.get("/transactions", async (req, res) => {
   }
 });
 
-router.get("/statistics", async (req, res) => {
+transactionsRouter.get("/statistics", async (req, res) => {
   const { month } = req.query;
-
   if (!month) {
     return res.status(400).json({ message: "Month is required." });
   }
-
   if (!isValidMonth(month)) {
     return res.status(400).json({ message: "Invalid month." });
   }
-
   try {
     const results = await getStatisticsData({ month });
     res.json(results);
@@ -78,16 +73,14 @@ router.get("/statistics", async (req, res) => {
   }
 });
 
-router.get("/barchart", async (req, res) => {
+transactionsRouter.get("/barchart", async (req, res) => {
   const { month } = req.query;
   if (!month) {
     return res.status(400).json({ message: "Month is required." });
   }
-
   if (!isValidMonth(month)) {
     return res.status(400).json({ message: "Invalid month." });
   }
-
   try {
     const results = await getBarChartData({ month });
     res.json(results);
@@ -98,17 +91,14 @@ router.get("/barchart", async (req, res) => {
   }
 });
 
-router.get("/piechart", async (req, res) => {
+transactionsRouter.get("/piechart", async (req, res) => {
   const { month } = req.query;
-
   if (!month) {
     return res.status(400).json({ message: "Month is required." });
   }
-
   if (!isValidMonth(month)) {
     return res.status(400).json({ message: "Invalid month." });
   }
-
   try {
     const results = await getPieChartData({ month });
     res.json(results);
@@ -119,7 +109,7 @@ router.get("/piechart", async (req, res) => {
   }
 });
 
-router.get("/combined", async (req, res) => {
+transactionsRouter.get("/combined", async (req, res) => {
   try {
     const { month, search, page, perPage } = req.query;
     if (!month) {
@@ -143,7 +133,6 @@ router.get("/combined", async (req, res) => {
     const statisticsData = await getStatisticsData({ month });
     const barChartData = await getBarChartData({ month });
     const pieChartData = await getPieChartData({ month });
-
     res.json({
       transactions: transactionsData,
       statistics: statisticsData,
@@ -156,5 +145,3 @@ router.get("/combined", async (req, res) => {
       .json({ message: "Error fetching combined data.", error: error.message });
   }
 });
-
-module.exports = router;

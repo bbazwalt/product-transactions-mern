@@ -1,4 +1,4 @@
-const getMonthNumber = (monthName) => {
+export const getMonthNumber = (monthName) => {
   const months = {
     January: "01",
     February: "02",
@@ -13,21 +13,14 @@ const getMonthNumber = (monthName) => {
     November: "11",
     December: "12",
   };
-
   return months[monthName];
 };
 
-const isValidMonth = (monthName) => {
+export const isValidMonth = (monthName) => {
   return getMonthNumber(monthName) !== undefined;
 };
 
-const priceRanges = {
+export const priceRanges = {
   boundaries: [0, 101, 201, 301, 401, 501, 601, 701, 801, 901],
   default: "901-Above",
-};
-
-module.exports = {
-  getMonthNumber,
-  isValidMonth,
-  priceRanges,
 };
